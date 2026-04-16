@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500;1,700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 /* ===== THEMES ===== */
-[data-theme="bleu"]{--c1:#1C4E80;--c2:#0A2540;--or:#C9A84C;--bg:#F8F6F1;--accent:#EBF3FB;}
-[data-theme="vert"]{--c1:#1E6B4A;--c2:#0D3D2A;--or:#A8C96E;--bg:#F4F8F1;--accent:#E8F5EE;}
+[data-theme="bleu"]{--c1:#1565C0;--c2:#0A2540;--or:#C9A84C;--bg:#FFFFFF;--accent:#E3F2FD;}
+[data-theme="vert"]{--c1:#00897B;--c2:#004D40;--or:#69F0AE;--bg:#F4F8F1;--accent:#E8F5EE;}
 [data-theme="noir"]{--c1:#2D2D2D;--c2:#111111;--or:#C9A84C;--bg:#F5F5F5;--accent:#ECECEC;}
-[data-theme="violet"]{--c1:#5B3FA6;--c2:#2D1F5E;--or:#E8A84C;--bg:#F7F4FF;--accent:#EDE8FF;}
-[data-theme="rouge"]{--c1:#C0392B;--c2:#7B241C;--or:#E8C870;--bg:#FFF8F8;--accent:#FDEDEC;}
+[data-theme="violet"]{--c1:#7B1FA2;--c2:#4A148C;--or:#FF9800;--bg:#F7F4FF;--accent:#EDE8FF;}
+[data-theme="rouge"]{--c1:#E53935;--c2:#B71C1C;--or:#FFD740;--bg:#FFF8F8;--accent:#FDEDEC;}
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -32,7 +32,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--c2);overfl
 .topbar{background:var(--c2);padding:0.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:rgba(255,255,255,0.7);}
 .topbar a{color:rgba(255,255,255,0.7);text-decoration:none;}
 .lang-switch{display:flex;gap:0.5rem;align-items:center;}
-.lang-btn{background:rgba(255,255,255,0.12);border:none;color:rgba(255,255,255,0.7);padding:0.2rem 0.6rem;border-radius:3px;cursor:pointer;font-size:0.72rem;font-weight:700;transition:all 0.2s;}
+.lang-btn{background:rgba(255,255,255,0.12);border:none;color:rgba(255,255,255,0.7);padding:0.2rem 0.7rem;border-radius:3px;cursor:pointer;font-size:0.72rem;font-weight:700;transition:all 0.2s;min-width:36px;}
 .lang-btn.active,.lang-btn:hover{background:var(--or);color:var(--c2);}
 
 /* NAV */
@@ -51,7 +51,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop
 
 /* HERO */
 .hero{min-height:100vh;display:grid;grid-template-columns:52% 48%;position:relative;overflow:hidden;}
-.hero-left{background:var(--bg);padding:7rem 3rem 4rem 2.5rem;display:flex;flex-direction:column;justify-content:center;position:relative;}
+.hero-left{background:#FFFFFF;padding:7rem 3rem 4rem 2.5rem;display:flex;flex-direction:column;justify-content:center;position:relative;}
 .hero-left::after{content:'';position:absolute;right:-30px;top:0;bottom:0;width:60px;background:var(--bg);clip-path:polygon(0 0,0 100%,100% 100%);z-index:1;}
 .hero-tag{font-size:0.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:0.7rem;margin-bottom:1.5rem;}
 .hero-tag::before{content:'';width:25px;height:1px;background:var(--or);}
@@ -246,7 +246,7 @@ footer p{font-size:0.75rem;}
     <span id="tb-h">09h–18h</span>
     <div class="lang-switch">
       <button class="lang-btn active" onclick="setLang('fr')" id="btn-fr">FR</button>
-      <button class="lang-btn" onclick="setLang('ar')" id="btn-ar">عر</button>
+      <button class="lang-btn" onclick="setLang('ar')" id="btn-ar">عربي</button>
     </div>
   </div>
 </div>
@@ -257,7 +257,7 @@ footer p{font-size:0.75rem;}
     <div class="nav-icon">🦷</div>
     <div>
       <div class="nav-name" id="nav-cab">Cabinet Dentaire</div>
-      <div class="nav-sub" id="nav-sub">Chirurgien-Dentiste • Oran</div>
+      <div class="nav-sub" id="nav-sub">Chirurgien-Dentiste • Algérie</div>
     </div>
   </div>
   <ul class="nav-links" id="nav-links">
@@ -273,10 +273,10 @@ footer p{font-size:0.75rem;}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-tag" id="hero-tag">Cabinet Dentaire • Oran</div>
+    <div class="hero-tag" id="hero-tag">Cabinet Dentaire • Algérie</div>
     <h1 class="hero-title" id="hero-title">Votre sourire,<br><em id="hero-em">notre engagement</em></h1>
     <div class="hero-divider"></div>
-    <p class="hero-desc" id="hero-desc">Un cabinet dentaire moderne à Oran avec une équipe attentive.</p>
+    <p class="hero-desc" id="hero-desc" id="hero-desc">Un cabinet dentaire moderne avec une équipe attentive.</p>
     <div class="hero-btns">
       <a href="#" class="btn-p" id="btn-tel">📞 <span id="btn-tel-txt">Prendre rendez-vous</span></a>
       <a href="#" class="btn-wa" id="btn-wa" target="_blank">💬 WhatsApp</a>
@@ -296,7 +296,7 @@ footer p{font-size:0.75rem;}
     <div class="hero-photos-row" id="photos-row" style="display:none;grid-template-columns:1fr 1fr;"></div>
     <div class="hero-float">
       <div class="hf-label" id="hf-label">Cabinet</div>
-      <div class="hf-val" id="hf-val">Oran, Algérie</div>
+      <div class="hf-val" id="hf-val">Algérie</div>
       <div class="hf-sub" id="hf-sub">✓ Note parfaite Google</div>
     </div>
   </div>
@@ -332,7 +332,7 @@ footer p{font-size:0.75rem;}
   </div>
   <div class="gal-grid" id="gal-grid">
     <div class="gi gi-main"><div class="gi-ph"><span>📷</span><p>PHOTO 1</p></div><div class="gi-lbl"><div class="gi-tag" id="gl1t">Salle de soins</div><div class="gi-name" id="gl1n">Équipée & Moderne</div></div></div>
-    <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 2</p></div><div class="gi-lbl"><div class="gi-tag" id="gl2t">Notre adresse</div><div class="gi-name" id="gl2n">Oran, Algérie</div></div></div>
+    <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 2</p></div><div class="gi-lbl"><div class="gi-tag" id="gl2t">Notre adresse</div><div class="gi-name" id="gl2n">Algérie</div></div></div>
     <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 3</p></div><div class="gi-lbl"><div class="gi-tag" id="gl3t">Résultats</div><div class="gi-name" id="gl3n">Sourire parfait</div></div></div>
     <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 4</p></div><div class="gi-lbl"><div class="gi-tag" id="gl4t">Localisation</div><div class="gi-name" id="gl4n">1er Étage</div></div></div>
   </div>
@@ -371,12 +371,12 @@ footer p{font-size:0.75rem;}
   <div>
     <div class="sec-tag" style="color:rgba(255,255,255,0.4);" id="rdv-tag">Rendez-vous</div>
     <h2 class="rdv-title" id="rdv-title">Prenez soin<br>de <em>votre sourire</em></h2>
-    <p class="rdv-desc" style="margin-top:1rem;" id="rdv-desc">Contactez-nous à Oran.</p>
+    <p class="rdv-desc" style="margin-top:1rem;" id="rdv-desc" id="rdv-desc">Contactez-nous.</p>
   </div>
   <div class="rdv-cards">
     <a href="#" class="rdv-card" id="rc-tel"><div class="rdv-ico">📞</div><div><div class="rdv-lbl" id="rc-tel-l">Téléphone</div><div class="rdv-val" id="rc-tel-v">...</div></div></a>
     <a href="#" class="rdv-card" id="rc-wa" target="_blank"><div class="rdv-ico">💬</div><div><div class="rdv-lbl">WhatsApp</div><div class="rdv-val" id="rc-wa-v">Message direct</div></div></a>
-    <a href="#" class="rdv-card" id="rc-maps" target="_blank"><div class="rdv-ico">📍</div><div><div class="rdv-lbl" id="rc-addr-l">Adresse</div><div class="rdv-val" id="rc-addr">Oran</div></div></a>
+    <a href="#" class="rdv-card" id="rc-maps" target="_blank"><div class="rdv-ico">📍</div><div><div class="rdv-lbl" id="rc-addr-l">Adresse</div><div class="rdv-val" id="rc-addr">Algérie</div></div></a>
   </div>
 </section>
 
@@ -395,7 +395,7 @@ footer p{font-size:0.75rem;}
     <a href="#" class="map-lnk" id="map-lnk" target="_blank">
       <div class="map-pin">📍</div>
       <div class="map-name" id="map-nm">Cabinet Dentaire</div>
-      <div class="map-addr" id="map-ad">Oran, Algérie</div>
+      <div class="map-addr" id="map-ad">Algérie</div>
       <div class="map-cta" id="map-cta">Ouvrir dans Google Maps →</div>
     </a>
   </div>
@@ -405,9 +405,9 @@ footer p{font-size:0.75rem;}
 <footer>
   <div>
     <div class="footer-brand" id="f-brand">Cabinet Dentaire</div>
-    <div class="footer-sub" id="f-sub">Chirurgien-Dentiste • Oran</div>
+    <div class="footer-sub" id="f-sub">Chirurgien-Dentiste • Algérie</div>
   </div>
-  <p id="f-copy">© 2025 — Oran, Algérie</p>
+  <p id="f-copy">© 2025 — Algérie</p>
 </footer>
 
 <script>
@@ -435,7 +435,7 @@ const T={
     s4n:"Soins conservateurs",s4d:"Obturations esthétiques et traitement des caries.",
     s5n:"Pédodontie",s5d:"Soins spécialisés pour les enfants dans un cadre rassurant.",
     s6n:"Urgences dentaires",s6d:"Prise en charge rapide de vos urgences bucco-dentaires.",
-    gl1t:"Salle de soins",gl1n:"Équipée & Moderne",gl2t:"Notre adresse",gl2n:"Oran, Algérie",
+    gl1t:"Salle de soins",gl1n:"Équipée & Moderne",gl2t:"Notre adresse",gl2n:"Algérie",
     gl3t:"Résultats",gl3n:"Sourire parfait",gl4t:"Localisation",
     rv_nom:"Votre prénom (optionnel)",rv_txt:"Décrivez votre expérience...",
     rdv_desc:"Contactez-nous — disponibles 6 jours sur 7 à {city}.",
@@ -535,25 +535,21 @@ function getParams(){
   const _ov=window._overrideParams||{};
   const p=new URLSearchParams(window.location.search);
   const dec=k=>(_ov[k]||'')||decodeURIComponent(p.get(k)||'');
-  // Support all URL formats
   const thMap={'b':'bleu','v':'vert','n':'noir','p':'violet','r':'rouge'};
-  // Try to load stored doc data by phone number
-  const telParam = p.get('p')||'';
-  let stored = null;
-  if(telParam){try{stored=JSON.parse(localStorage.getItem('doc_'+telParam)||'null');}catch(e){}}
-  const thS = p.get('th')||dec('th')||'b';
-  const lgS = p.get('l')||dec('l')||dec('lang')||'f';
+  const thS=p.get('th')||'b';
+  const lgS=p.get('l')||'f';
+  const tel=p.get('t')||dec('tel')||'';
   return{
-    cab:   (stored&&stored.cab)||dec('c')||dec('cab')||'Cabinet Dentaire',
-    doc:   (stored&&stored.doc)||dec('d')||dec('doc')||'Dr.',
-    city:  (stored&&stored.city)||dec('v')||dec('city')||'Oran',
-    addr:  (stored&&stored.addr)||dec('addr')||dec('v')||dec('city')||'Oran',
-    tel:   (stored&&stored.ph)||(telParam?'+213'+telParam:'')||dec('t')||dec('tel')||'',
-    note:  parseFloat(p.get('note')||'5.0'),
-    navis: parseInt(p.get('navis')||'14'),
-    maps:  (stored&&stored.maps)||dec('m')||dec('maps')||'#',
+    cab:   dec('c')||dec('cab')||'Cabinet Dentaire',
+    doc:   dec('d')||dec('doc')||'Dr.',
+    city:  dec('v')||dec('city')||'Algérie',
+    addr:  dec('a')||dec('addr')||dec('v')||'Algérie',
+    tel:   tel,
+    note:  5.0,
+    navis: 14,
+    maps:  dec('m')||dec('maps')||'#',
     theme: thMap[thS]||dec('theme')||'bleu',
-    lang:  lgS==='a'?'ar':lgS==='f'?'fr':(dec('lang')||'fr'),
+    lang:  lgS==='a'?'ar':'fr',
     hlj:   dec('hlj')||'09:00 – 18:00',
     hven:  dec('hven')||'Fermé',
     hsam:  dec('hsam')||'09:00 – 18:00',
@@ -741,34 +737,18 @@ function publierAvis(){
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.1});
 document.querySelectorAll('.svc,.rdv-card,.h-card').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(12px)';el.style.transition='opacity 0.5s ease,transform 0.5s ease';obs.observe(el);});
 
-// ===== JSONKEEPER SUPPORT =====
+// ===== INIT =====
 const _urlP = new URLSearchParams(window.location.search);
-const _id = _urlP.get('id');
-
-if(_id){
-  // حمّل بيانات الطبيب من jsonkeeper
-  document.getElementById('loading').style.display='flex';
-  fetch(`https://www.jsonkeeper.com/b/${_id}`)
-  .then(r=>r.json())
-  .then(d=>{
-    if(d && d.cab){
-      window._overrideParams={
-        cab:d.cab, doc:d.doc||'', tel:d.ph||'',
-        city:d.city||'Oran', addr:d.addr||'',
-        maps:d.maps||'', theme:d.theme||'bleu', lang:d.lang||'fr'
-      };
-      // تحميل الصور إذا موجودة
-      if(d.p1||d.p2||d.p3||d.p4){
-        window._photos={p1:d.p1||'',p2:d.p2||'',p3:d.p3||'',p4:d.p4||''};
-      }
-    }
-    applyData();afficherAvis();
-  })
-  .catch(()=>{applyData();afficherAvis();});
-} else {
-  applyData();
-  afficherAvis();
+// تحميل الصور من localStorage إذا وجد photoKey
+const _pk = _urlP.get('pk');
+if(_pk){
+  try{
+    const ph=JSON.parse(localStorage.getItem(_pk)||'{}');
+    if(Object.keys(ph).length>0) window._photos=ph;
+  }catch(e){}
 }
+applyData();
+afficherAvis();
 </script>
 </body>
 </html>
