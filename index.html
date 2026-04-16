@@ -739,16 +739,34 @@ document.querySelectorAll('.svc,.rdv-card,.h-card').forEach(el=>{el.style.opacit
 
 // ===== INIT =====
 const _urlP = new URLSearchParams(window.location.search);
-// تحميل الصور من localStorage إذا وجد photoKey
-const _pk = _urlP.get('pk');
-if(_pk){
-  try{
-    const ph=JSON.parse(localStorage.getItem(_pk)||'{}');
-    if(Object.keys(ph).length>0) window._photos=ph;
-  }catch(e){}
+const _gid = _urlP.get('g'); // GitHub Gist ID
+
+if(_gid){
+  document.getElementById('loading').style.display='flex';
+  fetch(`https://api.github.com/gists/${_gid}`,{
+    headers:{'User-Agent':'dental-shakib'}
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    const raw=res.files&&res.files['data.json']&&res.files['data.json'].content;
+    if(raw){
+      const d=JSON.parse(raw);
+      window._overrideParams={
+        cab:d.cab||'', doc:d.doc||'', tel:d.ph||'',
+        city:d.city||'', addr:d.addr||'',
+        maps:d.maps||'', theme:d.theme||'bleu', lang:d.lang||'fr'
+      };
+      if(d.p1||d.p2||d.p3||d.p4){
+        window._photos={p1:d.p1||'',p2:d.p2||'',p3:d.p3||'',p4:d.p4||''};
+      }
+    }
+    applyData();afficherAvis();
+  })
+  .catch(()=>{applyData();afficherAvis();});
+} else {
+  applyData();
+  afficherAvis();
 }
-applyData();
-afficherAvis();
 </script>
 </body>
 </html>
