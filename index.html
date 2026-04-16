@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="fr" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Cabinet Dentaire</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500;1,700&family=Outfit:wght@300;400;500;600;700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== THEMES ===== */
+[data-theme="bleu"]{--c1:#1C4E80;--c2:#0A2540;--or:#C9A84C;--bg:#F8F6F1;--accent:#EBF3FB;}
+[data-theme="vert"]{--c1:#1E6B4A;--c2:#0D3D2A;--or:#A8C96E;--bg:#F4F8F1;--accent:#E8F5EE;}
+[data-theme="noir"]{--c1:#2D2D2D;--c2:#111111;--or:#C9A84C;--bg:#F5F5F5;--accent:#ECECEC;}
+[data-theme="violet"]{--c1:#5B3FA6;--c2:#2D1F5E;--or:#E8A84C;--bg:#F7F4FF;--accent:#EDE8FF;}
+[data-theme="rouge"]{--c1:#C0392B;--c2:#7B241C;--or:#E8C870;--bg:#FFF8F8;--accent:#FDEDEC;}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--c2);overflow-x:hidden;transition:background 0.4s;}
+[dir="rtl"] body{font-family:'Tajawal',sans-serif;}
+[dir="rtl"] .hero-left::after{right:auto;left:-30px;clip-path:polygon(100% 0,100% 100%,0 100%);}
+[dir="rtl"] .rdv-card:hover{transform:translateX(4px);}
+[dir="rtl"] .sec-tag::before,[dir="rtl"] .hero-tag::before{display:none;}
+[dir="rtl"] .sec-tag::after,[dir="rtl"] .hero-tag::after{content:'';width:25px;height:1px;background:var(--or);}
+
+/* LOADING */
+#loading{position:fixed;inset:0;background:var(--c2);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;color:white;gap:1.2rem;}
+.loader{width:48px;height:48px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--or);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.load-txt{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;opacity:0.7;}
+
+/* TOPBAR */
+.topbar{background:var(--c2);padding:0.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:rgba(255,255,255,0.7);}
+.topbar a{color:rgba(255,255,255,0.7);text-decoration:none;}
+.lang-switch{display:flex;gap:0.5rem;align-items:center;}
+.lang-btn{background:rgba(255,255,255,0.12);border:none;color:rgba(255,255,255,0.7);padding:0.2rem 0.6rem;border-radius:3px;cursor:pointer;font-size:0.72rem;font-weight:700;transition:all 0.2s;}
+.lang-btn.active,.lang-btn:hover{background:var(--or);color:var(--c2);}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,0.07);padding:1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
+.nav-brand{display:flex;align-items:center;gap:0.8rem;}
+.nav-icon{width:42px;height:42px;border:2px solid var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.nav-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--c2);}
+[dir="rtl"] .nav-name{font-family:'Tajawal',sans-serif;font-size:1.1rem;}
+.nav-sub{font-size:0.62rem;color:var(--or);letter-spacing:1.5px;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--c2);font-size:0.82rem;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover{color:var(--c1);}
+.nav-cta{background:var(--c1)!important;color:white!important;padding:0.5rem 1.3rem;border-radius:3px;font-weight:600!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:22px;height:1.5px;background:var(--c2);display:block;}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:52% 48%;position:relative;overflow:hidden;}
+.hero-left{background:var(--bg);padding:7rem 3rem 4rem 2.5rem;display:flex;flex-direction:column;justify-content:center;position:relative;}
+.hero-left::after{content:'';position:absolute;right:-30px;top:0;bottom:0;width:60px;background:var(--bg);clip-path:polygon(0 0,0 100%,100% 100%);z-index:1;}
+.hero-tag{font-size:0.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:0.7rem;margin-bottom:1.5rem;}
+.hero-tag::before{content:'';width:25px;height:1px;background:var(--or);}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,4.5vw,4rem);font-weight:700;line-height:1.08;color:var(--c2);margin-bottom:1rem;}
+[dir="rtl"] .hero-title{font-family:'Tajawal',sans-serif;font-weight:900;}
+.hero-title em{font-style:italic;color:var(--c1);}
+[dir="rtl"] .hero-title em{font-style:normal;}
+.hero-divider{width:45px;height:2px;background:var(--or);margin:1.2rem 0;}
+.hero-desc{font-size:0.95rem;color:#6B7280;line-height:1.8;max-width:420px;}
+.hero-btns{display:flex;gap:0.8rem;margin-top:2rem;flex-wrap:wrap;}
+.btn-p{background:var(--c1);color:white;padding:0.85rem 1.8rem;border-radius:3px;text-decoration:none;font-weight:600;font-size:0.88rem;display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.15);}
+.btn-p:hover{background:var(--c2);transform:translateY(-2px);}
+.btn-wa{background:white;color:#25D366;border:1.5px solid #25D366;padding:0.85rem 1.6rem;border-radius:3px;text-decoration:none;font-weight:600;font-size:0.88rem;display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.3s;}
+.btn-wa:hover{background:#25D366;color:white;}
+.hero-note{display:flex;align-items:center;gap:0.8rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(0,0,0,0.08);}
+.note-score{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--c1);line-height:1;}
+.note-stars{color:var(--or);font-size:1rem;letter-spacing:1px;}
+.note-txt{font-size:0.78rem;color:#6B7280;}
+
+/* HERO RIGHT — GALERIE MULTI-PHOTOS */
+.hero-right{position:relative;overflow:hidden;display:grid;grid-template-rows:60% 40%;}
+.hero-photo-main{overflow:hidden;position:relative;}
+.hero-photo-main img{width:100%;height:100%;object-fit:cover;filter:brightness(0.85);}
+.hero-photos-row{display:grid;gap:2px;}
+.hero-photos-row img{width:100%;height:100%;object-fit:cover;filter:brightness(0.82);transition:filter 0.3s;}
+.hero-photos-row img:hover{filter:brightness(0.95);}
+.hero-photo-placeholder{background:linear-gradient(135deg,#e0e0e0,#d0d0d0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;color:#aaa;height:100%;}
+.hero-photo-placeholder span{font-size:2rem;}
+.hero-photo-placeholder p{font-size:0.65rem;letter-spacing:2px;font-weight:700;}
+.hero-float{position:absolute;bottom:1.5rem;left:1.5rem;background:rgba(255,255,255,0.97);border-left:3px solid var(--or);padding:0.9rem 1.2rem;box-shadow:0 8px 30px rgba(0,0,0,0.12);z-index:2;}
+[dir="rtl"] .hero-float{left:auto;right:1.5rem;border-left:none;border-right:3px solid var(--or);}
+.hf-label{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-bottom:0.2rem;}
+.hf-val{font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:700;}
+.hf-sub{font-size:0.65rem;color:#2A7A4B;margin-top:0.1rem;font-weight:500;}
+
+/* STATS */
+.stats{background:var(--c2);display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid var(--or);}
+.stat{padding:2.2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,0.06);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--or);line-height:1;}
+.stat-l{font-size:0.68rem;color:rgba(255,255,255,0.45);margin-top:0.4rem;letter-spacing:1px;text-transform:uppercase;}
+
+/* SECTIONS */
+section{padding:5.5rem 2.5rem;}
+.sec-tag{font-size:0.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;}
+.sec-tag::before{content:'';width:25px;height:1px;background:var(--or);}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:700;line-height:1.12;color:var(--c2);}
+[dir="rtl"] .sec-title{font-family:'Tajawal',sans-serif;font-weight:900;}
+.sec-title em{font-style:italic;color:var(--c1);}
+[dir="rtl"] .sec-title em{font-style:normal;}
+
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(0,0,0,0.06);margin-top:3rem;}
+.svc{background:white;padding:2.2rem 1.8rem;transition:all 0.35s;position:relative;overflow:hidden;}
+.svc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--or);transform:scaleY(0);transform-origin:bottom;transition:transform 0.35s;}
+[dir="rtl"] .svc::before{left:auto;right:0;}
+.svc:hover{background:var(--accent);}
+.svc:hover::before{transform:scaleY(1);}
+.svc-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:700;color:rgba(0,0,0,0.05);line-height:1;margin-bottom:1rem;}
+.svc-ico{font-size:1.5rem;margin-bottom:0.8rem;display:block;}
+.svc-name{font-weight:700;font-size:0.92rem;margin-bottom:0.4rem;color:var(--c2);}
+.svc-desc{font-size:0.8rem;color:#6B7280;line-height:1.6;}
+
+/* GALLERY SECTION */
+.gallery-sec{background:var(--bg);padding:5.5rem 0;}
+.gallery-hd{padding:0 2.5rem;margin-bottom:2.5rem;}
+.gal-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:240px 240px;gap:3px;}
+.gi{overflow:hidden;position:relative;background:#d8d8d8;}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s,filter 0.3s;filter:brightness(0.82);}
+.gi:hover img{transform:scale(1.04);filter:brightness(0.92);}
+.gi::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.4),transparent);}
+.gi-main{grid-row:1/3;}
+.gi-ph{width:100%;height:100%;background:linear-gradient(135deg,#e0e0e0,#ccc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;color:#aaa;}
+.gi-ph span{font-size:1.8rem;}
+.gi-ph p{font-size:0.65rem;letter-spacing:2px;font-weight:700;}
+.gi-lbl{position:absolute;bottom:0;left:0;right:0;padding:1.2rem;z-index:1;}
+.gi-tag{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:0.2rem;}
+.gi-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:white;}
+
+/* REVIEWS */
+.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(0,0,0,0.06);margin-bottom:2.5rem;}
+.rv-tile{background:white;padding:1.6rem;transition:background 0.2s;}
+.rv-tile:hover{background:var(--accent);}
+.rv-hd{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.8rem;}
+.rv-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:700;color:white;flex-shrink:0;}
+.rv-name{font-weight:700;font-size:0.86rem;}
+.rv-date{font-size:0.68rem;color:#6B7280;}
+.rv-stars{color:var(--or);font-size:0.8rem;margin-bottom:0.5rem;}
+.rv-txt{font-size:0.8rem;color:#6B7280;line-height:1.55;font-style:italic;}
+.rev-form{background:var(--accent);padding:2rem;max-width:560px;border-top:3px solid var(--or);}
+.rf-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;margin-bottom:0.3rem;color:var(--c2);}
+[dir="rtl"] .rf-title{font-family:'Tajawal',sans-serif;}
+.rf-sub{font-size:0.78rem;color:#6B7280;margin-bottom:1rem;}
+.stars-pick{display:flex;gap:0.4rem;margin:0.6rem 0 1rem;}
+.sp{font-size:1.8rem;color:#ddd;cursor:pointer;transition:color 0.15s;}
+.f-inp{width:100%;padding:0.75rem 0.9rem;border:1px solid rgba(0,0,0,0.1);font-family:inherit;font-size:0.88rem;color:var(--c2);outline:none;margin-bottom:0.8rem;transition:border 0.2s;background:white;}
+.f-inp:focus{border-color:var(--c1);}
+.f-btn{width:100%;background:var(--c1);color:white;border:none;padding:0.85rem;font-family:inherit;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.3s;}
+.f-btn:hover{background:var(--c2);}
+.f-ok{display:none;text-align:center;padding:0.8rem;background:rgba(42,122,75,0.1);color:#2A7A4B;font-weight:700;font-size:0.85rem;margin-top:0.8rem;}
+
+/* RDV */
+.rdv{background:var(--c2);padding:5.5rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.rdv-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3vw,2.8rem);font-weight:700;color:white;line-height:1.12;margin-bottom:1rem;}
+[dir="rtl"] .rdv-title{font-family:'Tajawal',sans-serif;}
+.rdv-title em{font-style:italic;color:var(--or);}
+[dir="rtl"] .rdv-title em{font-style:normal;}
+.rdv-desc{color:rgba(255,255,255,0.55);font-size:0.92rem;line-height:1.7;}
+.rdv-cards{display:flex;flex-direction:column;gap:0.8rem;}
+.rdv-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:1.2rem 1.5rem;display:flex;align-items:center;gap:0.9rem;text-decoration:none;color:white;transition:all 0.3s;}
+.rdv-card:hover{background:rgba(255,255,255,0.12);border-color:var(--or);}
+.rdv-ico{font-size:1.4rem;flex-shrink:0;}
+.rdv-lbl{font-size:0.62rem;opacity:0.55;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.15rem;}
+.rdv-val{font-weight:600;font-size:0.9rem;}
+
+/* HORAIRES */
+.h-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2.5rem;}
+.h-card{background:white;padding:2rem;border-top:3px solid var(--c1);}
+.h-card-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--c1);margin-bottom:1.2rem;}
+[dir="rtl"] .h-card-title{font-family:'Tajawal',sans-serif;}
+.h-row{display:flex;justify-content:space-between;padding:0.8rem 0;border-bottom:1px solid rgba(0,0,0,0.05);font-size:0.86rem;}
+.h-row:last-child{border-bottom:none;}
+.h-day{font-weight:500;}
+.h-time{color:var(--c1);font-weight:600;}
+.h-off{color:#DC2626;font-weight:500;}
+.map-lnk{background:white;height:250px;border:1px solid rgba(0,0,0,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.7rem;text-decoration:none;transition:all 0.3s;}
+.map-lnk:hover{background:var(--c1);}
+.map-lnk:hover *{color:rgba(255,255,255,0.9)!important;}
+.map-pin{font-size:2rem;animation:bounce 2s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+.map-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--c1);}
+.map-addr{font-size:0.8rem;color:#6B7280;text-align:center;padding:0 1rem;}
+.map-cta{font-size:0.7rem;color:var(--c1);letter-spacing:1px;text-transform:uppercase;}
+
+/* FOOTER */
+footer{background:var(--c2);color:rgba(255,255,255,0.45);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1rem;color:white;font-weight:700;}
+[dir="rtl"] .footer-brand{font-family:'Tajawal',sans-serif;}
+.footer-sub{font-size:0.62rem;color:var(--or);letter-spacing:1px;margin-top:0.2rem;}
+footer p{font-size:0.75rem;}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:22px;right:20px;background:#25D366;color:white;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;text-decoration:none;z-index:90;box-shadow:0 6px 20px rgba(37,211,102,0.45);animation:wa-p 3s ease-in-out infinite;}
+@keyframes wa-p{0%,100%{box-shadow:0 6px 20px rgba(37,211,102,0.45);}50%{box-shadow:0 6px 35px rgba(37,211,102,0.7),0 0 0 6px rgba(37,211,102,0.1);}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .topbar{padding:0.5rem 1.2rem;}
+  nav{padding:0.9rem 1.2rem;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:5rem 1.5rem 3rem;text-align:center;}
+  .hero-left::after{display:none;}
+  .hero-tag{justify-content:center;}
+  .hero-divider{margin:1rem auto;}
+  .hero-btns{justify-content:center;}
+  .hero-note{justify-content:center;}
+  .hero-right{height:320px;grid-template-rows:70% 30%;}
+  .hero-float{display:none;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  section,.gallery-sec{padding:3.5rem 1.5rem;}
+  .gallery-hd{padding:0 1.5rem;}
+  .svc-grid{grid-template-columns:1fr;}
+  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px;}
+  .gi-main{grid-row:auto;}
+  .rv-grid{grid-template-columns:1fr;}
+  .rdv{grid-template-columns:1fr;}
+  .h-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;padding:1.5rem;}
+}
+</style>
+</head>
+<body data-theme="bleu">
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loader"></div>
+  <div class="load-txt" id="load-txt">Chargement...</div>
+</div>
+
+<!-- WA FLOAT -->
+<a href="#" class="wa-float" id="wa-float" target="_blank">💬</a>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span id="tb-nom">Cabinet Dentaire</span>
+  <div style="display:flex;align-items:center;gap:1.2rem;">
+    <a href="#" id="tb-tel">📞</a>
+    <span id="tb-h">09h–18h</span>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('fr')" id="btn-fr">FR</button>
+      <button class="lang-btn" onclick="setLang('ar')" id="btn-ar">عر</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-icon">🦷</div>
+    <div>
+      <div class="nav-name" id="nav-cab">Cabinet Dentaire</div>
+      <div class="nav-sub" id="nav-sub">Chirurgien-Dentiste • Oran</div>
+    </div>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#services" id="nl-svc">Services</a></li>
+    <li><a href="#gallery" id="nl-gal">Cabinet</a></li>
+    <li><a href="#reviews" id="nl-rv">Avis</a></li>
+    <li><a href="#horaires" id="nl-hr">Horaires</a></li>
+    <li><a href="#rdv" class="nav-cta" id="nl-rdv">Rendez-vous</a></li>
+  </ul>
+  <button class="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag" id="hero-tag">Cabinet Dentaire • Oran</div>
+    <h1 class="hero-title" id="hero-title">Votre sourire,<br><em id="hero-em">notre engagement</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc" id="hero-desc">Un cabinet dentaire moderne à Oran avec une équipe attentive.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-p" id="btn-tel">📞 <span id="btn-tel-txt">Prendre rendez-vous</span></a>
+      <a href="#" class="btn-wa" id="btn-wa" target="_blank">💬 WhatsApp</a>
+    </div>
+    <div class="hero-note">
+      <div class="note-score" id="note-score">5.0</div>
+      <div>
+        <div class="note-stars" id="note-stars">★★★★★</div>
+        <div class="note-txt" id="note-txt">14 avis Google</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right" id="hero-right">
+    <div class="hero-photo-main" id="photo-main">
+      <div class="hero-photo-placeholder"><span>📷</span><p>PHOTO 1</p></div>
+    </div>
+    <div class="hero-photos-row" id="photos-row" style="display:none;grid-template-columns:1fr 1fr;"></div>
+    <div class="hero-float">
+      <div class="hf-label" id="hf-label">Cabinet</div>
+      <div class="hf-val" id="hf-val">Oran, Algérie</div>
+      <div class="hf-sub" id="hf-sub">✓ Note parfaite Google</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><span class="stat-n">500+</span><div class="stat-l" id="st1">Patients satisfaits</div></div>
+  <div class="stat"><span class="stat-n">10+</span><div class="stat-l" id="st2">Années d'expérience</div></div>
+  <div class="stat"><span class="stat-n" id="s-note">5.0★</span><div class="stat-l" id="st3">Note Google</div></div>
+  <div class="stat"><span class="stat-n">6</span><div class="stat-l" id="st4">Services proposés</div></div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" style="background:white;">
+  <div class="sec-tag" id="svc-tag">Nos soins</div>
+  <h2 class="sec-title" id="svc-title">Une dentisterie <em>complète</em><br>pour toute la famille</h2>
+  <div class="svc-grid">
+    <div class="svc"><div class="svc-num">01</div><span class="svc-ico">🦷</span><div class="svc-name" id="s1n">Orthodontie</div><div class="svc-desc" id="s1d">Correction des malpositions dentaires pour un sourire aligné.</div></div>
+    <div class="svc"><div class="svc-num">02</div><span class="svc-ico">✨</span><div class="svc-name" id="s2n">Blanchiment dentaire</div><div class="svc-desc" id="s2d">Retrouvez des dents éclatantes grâce à nos techniques modernes.</div></div>
+    <div class="svc"><div class="svc-num">03</div><span class="svc-ico">🦴</span><div class="svc-name" id="s3n">Implants dentaires</div><div class="svc-desc" id="s3d">Solution permanente pour remplacer les dents manquantes.</div></div>
+    <div class="svc"><div class="svc-num">04</div><span class="svc-ico">🔧</span><div class="svc-name" id="s4n">Soins conservateurs</div><div class="svc-desc" id="s4d">Obturations esthétiques et traitement des caries.</div></div>
+    <div class="svc"><div class="svc-num">05</div><span class="svc-ico">👶</span><div class="svc-name" id="s5n">Pédodontie</div><div class="svc-desc" id="s5d">Soins spécialisés pour les enfants dans un cadre rassurant.</div></div>
+    <div class="svc"><div class="svc-num">06</div><span class="svc-ico">🚨</span><div class="svc-name" id="s6n">Urgences dentaires</div><div class="svc-desc" id="s6d">Prise en charge rapide de vos urgences bucco-dentaires.</div></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="gallery-sec">
+  <div class="gallery-hd">
+    <div class="sec-tag" id="gal-tag">Notre cabinet</div>
+    <h2 class="sec-title" id="gal-title">Un espace <em>pensé</em><br>pour votre confort</h2>
+  </div>
+  <div class="gal-grid" id="gal-grid">
+    <div class="gi gi-main"><div class="gi-ph"><span>📷</span><p>PHOTO 1</p></div><div class="gi-lbl"><div class="gi-tag" id="gl1t">Salle de soins</div><div class="gi-name" id="gl1n">Équipée & Moderne</div></div></div>
+    <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 2</p></div><div class="gi-lbl"><div class="gi-tag" id="gl2t">Notre adresse</div><div class="gi-name" id="gl2n">Oran, Algérie</div></div></div>
+    <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 3</p></div><div class="gi-lbl"><div class="gi-tag" id="gl3t">Résultats</div><div class="gi-name" id="gl3n">Sourire parfait</div></div></div>
+    <div class="gi"><div class="gi-ph"><span>📷</span><p>PHOTO 4</p></div><div class="gi-lbl"><div class="gi-tag" id="gl4t">Localisation</div><div class="gi-name" id="gl4n">1er Étage</div></div></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" style="background:var(--bg);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:2rem;">
+    <div>
+      <div class="sec-tag" id="rv-tag">Témoignages</div>
+      <h2 class="sec-title" id="rv-title">Ce que disent<br><em>nos patients</em></h2>
+    </div>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:700;color:var(--c1);line-height:1;" id="avg-n">5.0</div>
+      <div style="color:var(--or);font-size:1.1rem;letter-spacing:2px;">★★★★★</div>
+      <div style="font-size:0.78rem;color:#6B7280;margin-top:0.3rem;" id="avg-c">14 avis</div>
+    </div>
+  </div>
+  <div class="rv-grid" id="rv-grid"></div>
+  <div class="rev-form">
+    <div class="rf-title" id="rf-title">Laisser un avis</div>
+    <div class="rf-sub" id="rf-sub">Partagez votre expérience</div>
+    <div class="stars-pick">
+      <span class="sp" data-v="1">★</span><span class="sp" data-v="2">★</span>
+      <span class="sp" data-v="3">★</span><span class="sp" data-v="4">★</span><span class="sp" data-v="5">★</span>
+    </div>
+    <input type="text" class="f-inp" id="rv-nom" placeholder="Votre prénom">
+    <textarea class="f-inp" id="rv-txt" rows="3" placeholder="Votre expérience..."></textarea>
+    <button class="f-btn" id="f-btn" onclick="publierAvis()">PUBLIER MON AVIS</button>
+    <div class="f-ok" id="f-ok">✓ Merci !</div>
+  </div>
+</section>
+
+<!-- RDV -->
+<section id="rdv" class="rdv" style="padding:5.5rem 2.5rem;">
+  <div>
+    <div class="sec-tag" style="color:rgba(255,255,255,0.4);" id="rdv-tag">Rendez-vous</div>
+    <h2 class="rdv-title" id="rdv-title">Prenez soin<br>de <em>votre sourire</em></h2>
+    <p class="rdv-desc" style="margin-top:1rem;" id="rdv-desc">Contactez-nous à Oran.</p>
+  </div>
+  <div class="rdv-cards">
+    <a href="#" class="rdv-card" id="rc-tel"><div class="rdv-ico">📞</div><div><div class="rdv-lbl" id="rc-tel-l">Téléphone</div><div class="rdv-val" id="rc-tel-v">...</div></div></a>
+    <a href="#" class="rdv-card" id="rc-wa" target="_blank"><div class="rdv-ico">💬</div><div><div class="rdv-lbl">WhatsApp</div><div class="rdv-val" id="rc-wa-v">Message direct</div></div></a>
+    <a href="#" class="rdv-card" id="rc-maps" target="_blank"><div class="rdv-ico">📍</div><div><div class="rdv-lbl" id="rc-addr-l">Adresse</div><div class="rdv-val" id="rc-addr">Oran</div></div></a>
+  </div>
+</section>
+
+<!-- HORAIRES -->
+<section id="horaires" style="background:var(--bg);">
+  <div class="sec-tag" id="hr-tag">Horaires & Localisation</div>
+  <h2 class="sec-title" id="hr-title">Nous sommes <em>là pour vous</em></h2>
+  <div class="h-grid">
+    <div class="h-card">
+      <div class="h-card-title" id="hr-card-title">🕐 Heures d'ouverture</div>
+      <div class="h-row"><span class="h-day" id="hr-lj-l">Lundi – Jeudi</span><span class="h-time" id="h-lj">09:00 – 18:00</span></div>
+      <div class="h-row"><span class="h-day" id="hr-ven-l">Vendredi</span><span id="h-ven" class="h-off">Fermé</span></div>
+      <div class="h-row"><span class="h-day" id="hr-sam-l">Samedi</span><span class="h-time" id="h-sam">09:00 – 18:00</span></div>
+      <div class="h-row"><span class="h-day" id="hr-dim-l">Dimanche</span><span class="h-time" id="h-dim">09:00 – 18:00</span></div>
+    </div>
+    <a href="#" class="map-lnk" id="map-lnk" target="_blank">
+      <div class="map-pin">📍</div>
+      <div class="map-name" id="map-nm">Cabinet Dentaire</div>
+      <div class="map-addr" id="map-ad">Oran, Algérie</div>
+      <div class="map-cta" id="map-cta">Ouvrir dans Google Maps →</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand" id="f-brand">Cabinet Dentaire</div>
+    <div class="footer-sub" id="f-sub">Chirurgien-Dentiste • Oran</div>
+  </div>
+  <p id="f-copy">© 2025 — Oran, Algérie</p>
+</footer>
+
+<script>
+// ====== TRADUCTIONS ======
+const T={
+  fr:{
+    loading:"Chargement...",tag:"Cabinet Dentaire",title:"Votre sourire,",em:"notre engagement",
+    desc_tpl:"accueille à {city} avec des soins modernes et une équipe attentive.",
+    rdv_btn:"Prendre rendez-vous",note_txt:"{n} avis Google",
+    st1:"Patients satisfaits",st2:"Années d'expérience",st3:"Note Google",st4:"Services proposés",
+    svc_tag:"Nos soins",svc_title:"Une dentisterie {em}complète{/em} pour toute la famille",
+    gal_tag:"Notre cabinet",gal_title:"Un espace {em}pensé{/em} pour votre confort",
+    rv_tag:"Témoignages",rv_title:"Ce que disent nos {em}patients{/em}",
+    rf_title:"Laisser un avis",rf_sub:"Partagez votre expérience",f_btn:"PUBLIER MON AVIS",
+    rdv_tag:"Rendez-vous",rdv_title:"Prenez soin de {em}votre sourire{/em}",
+    hr_tag:"Horaires & Localisation",hr_title:"Nous sommes {em}là pour vous{/em}",
+    hr_card:"🕐 Heures d'ouverture",
+    lj:"Lundi – Jeudi",ven:"Vendredi",sam:"Samedi",dim:"Dimanche",ferme:"Fermé",
+    map_cta:"Ouvrir dans Google Maps →",tel_l:"Téléphone",addr_l:"Adresse",wa_v:"Message direct",
+    hf_label:"Cabinet",hf_sub:"✓ Note parfaite Google",
+    nl_svc:"Services",nl_gal:"Cabinet",nl_rv:"Avis",nl_hr:"Horaires",nl_rdv:"Rendez-vous",
+    s1n:"Orthodontie",s1d:"Correction des malpositions dentaires pour un sourire aligné.",
+    s2n:"Blanchiment dentaire",s2d:"Retrouvez des dents éclatantes grâce à nos techniques modernes.",
+    s3n:"Implants dentaires",s3d:"Solution permanente pour remplacer les dents manquantes.",
+    s4n:"Soins conservateurs",s4d:"Obturations esthétiques et traitement des caries.",
+    s5n:"Pédodontie",s5d:"Soins spécialisés pour les enfants dans un cadre rassurant.",
+    s6n:"Urgences dentaires",s6d:"Prise en charge rapide de vos urgences bucco-dentaires.",
+    gl1t:"Salle de soins",gl1n:"Équipée & Moderne",gl2t:"Notre adresse",gl2n:"Oran, Algérie",
+    gl3t:"Résultats",gl3n:"Sourire parfait",gl4t:"Localisation",
+    rv_nom:"Votre prénom (optionnel)",rv_txt:"Décrivez votre expérience...",
+    rdv_desc:"Contactez-nous — disponibles 6 jours sur 7 à {city}.",
+  },
+  ar:{
+    loading:"جاري التحميل...",tag:"عيادة أسنان",title:"ابتسامتك،",em:"أمانة عندنا",
+    desc_tpl:"تستقبلكم في {city} بأحدث التقنيات وفريق متخصص لراحتكم.",
+    rdv_btn:"احجز موعدك الآن",note_txt:"{n} تقييم على Google",
+    st1:"مريض راضٍ",st2:"سنوات خبرة",st3:"تقييم Google",st4:"خدمة متخصصة",
+    svc_tag:"خدماتنا",svc_title:"رعاية شاملة {em}لأسنان صحية{/em}",
+    gal_tag:"عيادتنا",gal_title:"فضاء {em}مريح{/em} لكم",
+    rv_tag:"آراء المرضى",rv_title:"ماذا يقول {em}مرضانا{/em}",
+    rf_title:"أضف تقييمك",rf_sub:"رأيك يساعدنا على التحسين",f_btn:"نشر تقييمي",
+    rdv_tag:"احجز موعداً",rdv_title:"ابدأ رحلتك نحو {em}ابتسامة أجمل{/em}",
+    hr_tag:"التوقيت والموقع",hr_title:"نحن هنا {em}من أجلكم{/em}",
+    hr_card:"🕐 ساعات العمل",
+    lj:"الاثنين – الخميس",ven:"الجمعة",sam:"السبت",dim:"الأحد",ferme:"مغلق",
+    map_cta:"افتح في خرائط Google",tel_l:"الهاتف",addr_l:"العنوان",wa_v:"راسلنا مباشرة",
+    hf_label:"العيادة",hf_sub:"✓ تقييم مثالي على Google",
+    nl_svc:"الخدمات",nl_gal:"العيادة",nl_rv:"التقييمات",nl_hr:"التوقيت",nl_rdv:"احجز موعد",
+    s1n:"تقويم الأسنان",s1d:"تقويم ثابت ومتحرك لإعادة ترتيب الأسنان والحصول على ابتسامة مثالية.",
+    s2n:"تبييض الأسنان",s2d:"تبييض احترافي آمن وفعّال يعيد لأسنانك بياضها الطبيعي.",
+    s3n:"زراعة الأسنان",s3d:"زراعة أسنان دائمة تشبه الأسنان الطبيعية تمامًا.",
+    s4n:"الحشوات والترميم",s4d:"حشوات تجميلية متطابقة مع لون أسنانك الطبيعي.",
+    s5n:"أسنان الأطفال",s5d:"بيئة ودية وآمنة للأطفال مع رعاية متخصصة من الصغر.",
+    s6n:"حالات الطوارئ",s6d:"نستقبل حالات الطوارئ السنية بأسرع وقت ممكن.",
+    gl1t:"قاعة العلاج",gl1n:"تجهيزات حديثة",gl2t:"عنواننا",gl2n:"الجزائر",
+    gl3t:"نتائجنا",gl3n:"ابتسامة مثالية",gl4t:"الموقع",
+    rv_nom:"اسمك (اختياري)",rv_txt:"شارك تجربتك مع العيادة...",
+    rdv_desc:"تواصل معنا — نحن هنا لخدمتكم 6 أيام في الأسبوع في {city}.",
+  }
+};
+
+let lang='fr';
+let D={};
+
+function setLang(l){
+  lang=l;
+  document.getElementById('html-root').lang=l;
+  document.getElementById('html-root').dir=l==='ar'?'rtl':'ltr';
+  document.getElementById('btn-fr').className='lang-btn'+(l==='fr'?' active':'');
+  document.getElementById('btn-ar').className='lang-btn'+(l==='ar'?' active':'');
+  applyTranslations();
+  afficherAvis();
+}
+
+function t(key){return T[lang][key]||T['fr'][key]||key;}
+function em(key){return t(key).replace(/{em}/g,`<em>`).replace(/{\/em}/g,`</em>`);}
+
+function applyTranslations(){
+  const d=D;
+  document.getElementById('load-txt').textContent=t('loading');
+  document.getElementById('tb-h').textContent=d.hlj||'09h–18h';
+  document.getElementById('nav-sub').textContent=`${d.doc} • ${d.city}`;
+  document.getElementById('hero-tag').textContent=`${t('tag')} • ${d.city}`;
+  document.getElementById('hero-title').innerHTML=`${t('title')}<br><em id="hero-em">${t('em')}</em>`;
+  document.getElementById('hero-desc').textContent=`${d.cab} ${t('desc_tpl').replace('{city}',d.city)}`;
+  document.getElementById('btn-tel-txt').textContent=t('rdv_btn');
+  document.getElementById('note-txt').textContent=t('note_txt').replace('{n}',d.navis);
+  document.getElementById('hf-label').textContent=t('hf_label');
+  document.getElementById('hf-sub').textContent=t('hf_sub');
+  document.getElementById('st1').textContent=t('st1');document.getElementById('st2').textContent=t('st2');
+  document.getElementById('st3').textContent=t('st3');document.getElementById('st4').textContent=t('st4');
+  document.getElementById('svc-tag').textContent=t('svc_tag');document.getElementById('svc-title').innerHTML=em('svc_title');
+  document.getElementById('gal-tag').textContent=t('gal_tag');document.getElementById('gal-title').innerHTML=em('gal_title');
+  document.getElementById('rv-tag').textContent=t('rv_tag');document.getElementById('rv-title').innerHTML=em('rv_title');
+  document.getElementById('rf-title').textContent=t('rf_title');document.getElementById('rf-sub').textContent=t('rf_sub');
+  document.getElementById('f-btn').textContent=t('f_btn');
+  document.getElementById('rdv-tag').textContent=t('rdv_tag');document.getElementById('rdv-title').innerHTML=em('rdv_title');
+  document.getElementById('rdv-desc').textContent=t('rdv_desc').replace('{city}',d.city);
+  document.getElementById('hr-tag').textContent=t('hr_tag');document.getElementById('hr-title').innerHTML=em('hr_title');
+  document.getElementById('hr-card-title').textContent=t('hr_card');
+  document.getElementById('hr-lj-l').textContent=t('lj');document.getElementById('hr-ven-l').textContent=t('ven');
+  document.getElementById('hr-sam-l').textContent=t('sam');document.getElementById('hr-dim-l').textContent=t('dim');
+  const hv=document.getElementById('h-ven');
+  if(hv.textContent===T['fr']['ferme']||hv.textContent===T['ar']['ferme']||hv.dataset.closed==='1'){
+    hv.textContent=t('ferme');hv.dataset.closed='1';
+  }
+  document.getElementById('map-cta').textContent=t('map_cta');
+  document.getElementById('rc-tel-l').textContent=t('tel_l');document.getElementById('rc-addr-l').textContent=t('addr_l');
+  document.getElementById('rc-wa-v').textContent=t('wa_v');
+  document.getElementById('nl-svc').textContent=t('nl_svc');document.getElementById('nl-gal').textContent=t('nl_gal');
+  document.getElementById('nl-rv').textContent=t('nl_rv');document.getElementById('nl-hr').textContent=t('nl_hr');
+  document.getElementById('nl-rdv').textContent=t('nl_rdv');
+  ['s1n','s1d','s2n','s2d','s3n','s3d','s4n','s4d','s5n','s5d','s6n','s6d'].forEach(k=>{
+    document.getElementById(k).textContent=t(k);
+  });
+  ['gl1t','gl1n','gl2t','gl3t','gl3n','gl4t'].forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=t(k);});
+  document.getElementById('gl2n').textContent=d.city+', Algérie';
+  document.getElementById('gl4n').textContent=d.addr?d.addr.split(',')[0]:d.city;
+  document.getElementById('rv-nom').placeholder=t('rv_nom');
+  document.getElementById('rv-txt').placeholder=t('rv_txt');
+}
+
+// ====== PARAMS URL ======
+function getParams(){
+  const _ov=window._overrideParams||{};
+  const p=new URLSearchParams(window.location.search);
+  const dec=k=>(_ov[k]||'')||decodeURIComponent(p.get(k)||'');
+  // Support all URL formats
+  const thMap={'b':'bleu','v':'vert','n':'noir','p':'violet','r':'rouge'};
+  // Try to load stored doc data by phone number
+  const telParam = p.get('p')||'';
+  let stored = null;
+  if(telParam){try{stored=JSON.parse(localStorage.getItem('doc_'+telParam)||'null');}catch(e){}}
+  const thS = p.get('th')||dec('th')||'b';
+  const lgS = p.get('l')||dec('l')||dec('lang')||'f';
+  return{
+    cab:   (stored&&stored.cab)||dec('c')||dec('cab')||'Cabinet Dentaire',
+    doc:   (stored&&stored.doc)||dec('d')||dec('doc')||'Dr.',
+    city:  (stored&&stored.city)||dec('v')||dec('city')||'Oran',
+    addr:  (stored&&stored.addr)||dec('addr')||dec('v')||dec('city')||'Oran',
+    tel:   (stored&&stored.ph)||(telParam?'+213'+telParam:'')||dec('t')||dec('tel')||'',
+    note:  parseFloat(p.get('note')||'5.0'),
+    navis: parseInt(p.get('navis')||'14'),
+    maps:  (stored&&stored.maps)||dec('m')||dec('maps')||'#',
+    theme: thMap[thS]||dec('theme')||'bleu',
+    lang:  lgS==='a'?'ar':lgS==='f'?'fr':(dec('lang')||'fr'),
+    hlj:   dec('hlj')||'09:00 – 18:00',
+    hven:  dec('hven')||'Fermé',
+    hsam:  dec('hsam')||'09:00 – 18:00',
+    hdim:  dec('hdim')||'09:00 – 18:00',
+    // photos: p1, p2, p3, p4 = URLs des photos
+    p1: dec('p1')||'',p2:dec('p2')||'',p3:dec('p3')||'',p4:dec('p4')||'',
+  };
+}
+
+function applyPhotos(d){
+  const photos=[d.p1,d.p2,d.p3,d.p4].filter(Boolean);
+  if(!photos.length)return;
+
+  // Hero — photo principale
+  const pm=document.getElementById('photo-main');
+  pm.innerHTML=`<img src="${photos[0]}" alt="${d.cab}">`;
+
+  // Hero — photos secondaires si 2+
+  const pr=document.getElementById('photos-row');
+  if(photos.length>=2){
+    const extra=photos.slice(1,3);
+    pr.style.display='grid';
+    pr.style.gridTemplateColumns=extra.length===1?'1fr':'1fr 1fr';
+    pr.innerHTML=extra.map(u=>`<img src="${u}" alt="${d.cab}">`).join('');
+  }
+
+  // Galerie
+  const gals=document.querySelectorAll('#gal-grid .gi');
+  photos.forEach((u,i)=>{
+    if(!gals[i])return;
+    const lbl=gals[i].querySelector('.gi-lbl');
+    gals[i].innerHTML='';
+    const img=document.createElement('img');img.src=u;img.alt=d.cab;
+    gals[i].appendChild(img);gals[i].appendChild(lbl);
+  });
+}
+
+function applyData(){
+  D=getParams();const d=D;
+  lang=d.lang;
+
+  // Theme
+  document.body.setAttribute('data-theme',d.theme);
+
+  // Lang
+  document.getElementById('html-root').lang=lang;
+  document.getElementById('html-root').dir=lang==='ar'?'rtl':'ltr';
+  document.getElementById('btn-fr').className='lang-btn'+(lang==='fr'?' active':'');
+  document.getElementById('btn-ar').className='lang-btn'+(lang==='ar'?' active':'');
+
+  // Title
+  document.title=`${d.cab} — ${d.city}`;
+  document.getElementById('page-title').textContent=`${d.cab} — ${d.city}`;
+
+  // Topbar
+  document.getElementById('tb-nom').textContent=`${d.cab} — ${d.city}`;
+  if(d.tel){
+    document.getElementById('tb-tel').textContent=`📞 ${d.tel}`;
+    document.getElementById('tb-tel').href=`tel:${d.tel.replace(/\s/g,'')}`;
+  }
+
+  // Nav & Hero
+  document.getElementById('nav-cab').textContent=d.cab;
+  document.getElementById('note-score').textContent=d.note.toFixed(1);
+  document.getElementById('s-note').textContent=d.note.toFixed(1)+'★';
+  document.getElementById('avg-n').textContent=d.note.toFixed(1);
+  document.getElementById('avg-c').textContent=`${d.navis} ${lang==='ar'?'تقييم':'avis'}`;
+  document.getElementById('hf-val').textContent=`${d.cab}, ${d.city}`;
+  document.getElementById('note-stars').textContent='★'.repeat(Math.round(d.note))+'☆'.repeat(5-Math.round(d.note));
+
+  // Tel / WA
+  const telC=d.tel.replace(/[\s\+]/g,'');
+  const waHref=d.tel?`https://wa.me/${telC}?text=${encodeURIComponent(lang==='ar'?'السلام عليكم، أريد حجز موعد':'Bonjour, je souhaite prendre rendez-vous')}`:'#';
+  if(d.tel){
+    ['btn-tel','rc-tel'].forEach(id=>{document.getElementById(id).href=`tel:${d.tel.replace(/\s/g,'')}`});
+    ['btn-wa','wa-float','rc-wa'].forEach(id=>{document.getElementById(id).href=waHref;});
+    document.getElementById('rc-tel-v').textContent=d.tel;
+  }
+
+  // Adresse
+  document.getElementById('rc-addr').textContent=d.addr;
+  document.getElementById('map-nm').textContent=d.cab;
+  document.getElementById('map-ad').textContent=d.addr;
+  if(d.maps!=='#'){
+    ['rc-maps','map-lnk'].forEach(id=>{document.getElementById(id).href=d.maps;});
+  }
+
+  // Horaires
+  document.getElementById('h-lj').textContent=d.hlj;
+  document.getElementById('h-sam').textContent=d.hsam;
+  document.getElementById('h-dim').textContent=d.hdim;
+  const hv=document.getElementById('h-ven');
+  hv.textContent=d.hven;
+  hv.className=d.hven==='Fermé'||d.hven==='مغلق'?'h-off':'h-time';
+  if(d.hven==='Fermé'||d.hven==='مغلق')hv.dataset.closed='1';
+
+  // RDV desc
+  document.getElementById('rdv-desc').textContent=
+    (lang==='ar'?`تواصل معنا — نحن هنا 6 أيام في ${d.city}.`:`Contactez-nous — disponibles 6 jours sur 7 à ${d.city}.`);
+
+  // Footer
+  document.getElementById('f-brand').textContent=d.cab;
+  document.getElementById('f-sub').textContent=`${d.doc} • ${d.city}`;
+  document.getElementById('f-copy').textContent=`© 2025 — ${d.addr}`;
+
+  // Photos
+  applyPhotos(d);
+
+  // Traductions
+  applyTranslations();
+
+  // Hide loading
+  setTimeout(()=>{document.getElementById('loading').style.display='none';},500);
+  // تطبيق الصور إذا موجودة
+  if(window._photos) applyStoredPhotos(window._photos);
+}
+
+function applyStoredPhotos(ph){
+  if(ph.p1){
+    const p1el=document.getElementById('hero-p1');
+    if(p1el) p1el.innerHTML=`<img src="${ph.p1}" alt="Cabinet" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.85);">`;
+  }
+  if(ph.p2||ph.p3){
+    const row=document.getElementById('hero-row');
+    if(row){
+      row.style.display='grid';
+      const p2el=document.getElementById('hero-p2');
+      const p3el=document.getElementById('hero-p3');
+      if(p2el&&ph.p2) p2el.innerHTML=`<img src="${ph.p2}" style="width:100%;height:100%;object-fit:cover;">`;
+      if(p3el&&ph.p3) p3el.innerHTML=`<img src="${ph.p3}" style="width:100%;height:100%;object-fit:cover;">`;
+      else if(row) row.style.gridTemplateColumns='1fr';
+    }
+  }
+  [1,2,3,4].forEach(n=>{
+    const src=ph['p'+n];if(!src)return;
+    const gi=document.getElementById('gal'+n);if(!gi)return;
+    const lbl=gi.querySelector('.gi-lbl');
+    gi.innerHTML='';
+    const img=document.createElement('img');
+    img.src=src;img.alt='Cabinet';
+    img.style.cssText='width:100%;height:100%;object-fit:cover;filter:brightness(0.82);';
+    gi.appendChild(img);if(lbl)gi.appendChild(lbl);
+  });
+}
+
+// ====== AVIS ======
+let selStars=0;
+let avis=[
+  {fr:{nom:"Fatima B.",txt:"Très bon dentiste, gentil et il ne fait pas mal !"},ar:{nom:"فاطمة ب.",txt:"طبيب ممتاز، لطيف وما يوجع!"},note:5,date:{fr:"Il y a 1 mois",ar:"منذ شهر"},col:"#1C4E80"},
+  {fr:{nom:"Karim M.",txt:"Cabinet propre, médecin professionnel. Je recommande."},ar:{nom:"كريم م.",txt:"عيادة نظيفة والطبيب محترف. أنصح به."},note:5,date:{fr:"Il y a 2 mois",ar:"منذ شهرين"},col:"#2A7A4B"},
+  {fr:{nom:"Nadia H.",txt:"Accueil chaleureux, mon enfant n'a pas eu peur."},ar:{nom:"نادية ح.",txt:"استقبال رائع، ابني ما خاف أبداً."},note:5,date:{fr:"Il y a 3 mois",ar:"منذ 3 أشهر"},col:"#7D3C98"},
+];
+function initiales(n){return n.split(' ').map(x=>x[0]).join('').toUpperCase().slice(0,2);}
+function afficherAvis(){
+  document.getElementById('rv-grid').innerHTML=avis.map((a,i)=>{
+    const nom=a[lang]?a[lang].nom:a.fr.nom;
+    const txt=a[lang]?a[lang].txt:a.fr.txt;
+    const date=a.date[lang]||a.date.fr;
+    return`<div class="rv-tile" style="animation:fadeUp 0.4s ${i*0.08}s ease both">
+      <div class="rv-hd"><div class="rv-av" style="background:${a.col}">${initiales(nom)}</div><div><div class="rv-name">${nom}</div><div class="rv-date">${date}</div></div></div>
+      <div class="rv-stars">${'★'.repeat(a.note)}${'☆'.repeat(5-a.note)}</div>
+      <div class="rv-txt">"${txt}"</div>
+    </div>`;
+  }).join('');
+}
+document.querySelectorAll('.sp').forEach(s=>{
+  s.addEventListener('mouseover',function(){const v=+this.dataset.v;document.querySelectorAll('.sp').forEach(x=>x.style.color=+x.dataset.v<=v?'var(--or)':'#ddd');});
+  s.addEventListener('click',function(){selStars=+this.dataset.v;});
+  s.addEventListener('mouseleave',function(){document.querySelectorAll('.sp').forEach(x=>x.style.color=+x.dataset.v<=selStars?'var(--or)':'#ddd');});
+});
+function publierAvis(){
+  const nom=document.getElementById('rv-nom').value.trim()||(lang==='ar'?'مريض':'Patient');
+  const txt=document.getElementById('rv-txt').value.trim();
+  if(!txt||!selStars){alert(lang==='ar'?'اكتب تعليقاً واختر تقييماً':'Veuillez écrire et choisir une note');return;}
+  const cols=['#1C4E80','#2A7A4B','#C9A84C','#7D3C98'];
+  const now=lang==='ar'?'الآن':"À l'instant";
+  avis.unshift({fr:{nom,txt},ar:{nom,txt},note:selStars,date:{fr:now,ar:now},col:cols[Math.floor(Math.random()*4)]});
+  afficherAvis();
+  document.getElementById('rv-nom').value='';document.getElementById('rv-txt').value='';
+  selStars=0;document.querySelectorAll('.sp').forEach(s=>s.style.color='#ddd');
+  const ok=document.getElementById('f-ok');ok.style.display='block';setTimeout(()=>ok.style.display='none',3000);
+}
+
+// SCROLL ANIMATIONS
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.1});
+document.querySelectorAll('.svc,.rdv-card,.h-card').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(12px)';el.style.transition='opacity 0.5s ease,transform 0.5s ease';obs.observe(el);});
+
+// ===== JSONKEEPER SUPPORT =====
+const _urlP = new URLSearchParams(window.location.search);
+const _id = _urlP.get('id');
+
+if(_id){
+  // حمّل بيانات الطبيب من jsonkeeper
+  document.getElementById('loading').style.display='flex';
+  fetch(`https://www.jsonkeeper.com/b/${_id}`)
+  .then(r=>r.json())
+  .then(d=>{
+    if(d && d.cab){
+      window._overrideParams={
+        cab:d.cab, doc:d.doc||'', tel:d.ph||'',
+        city:d.city||'Oran', addr:d.addr||'',
+        maps:d.maps||'', theme:d.theme||'bleu', lang:d.lang||'fr'
+      };
+      // تحميل الصور إذا موجودة
+      if(d.p1||d.p2||d.p3||d.p4){
+        window._photos={p1:d.p1||'',p2:d.p2||'',p3:d.p3||'',p4:d.p4||''};
+      }
+    }
+    applyData();afficherAvis();
+  })
+  .catch(()=>{applyData();afficherAvis();});
+} else {
+  applyData();
+  afficherAvis();
+}
+</script>
+</body>
+</html>
